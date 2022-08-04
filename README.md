@@ -1,4 +1,4 @@
-# File-Transfers
+# File transfers cheat sheet and more 
 
 ## Table Of Content
 
