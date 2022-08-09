@@ -5,7 +5,7 @@
 - [File transfers](#File-transfers)
 - [Windows File Transfer Methods](#Windows-File-Transfer-Methods)
   - [Introduction](#Introduction)
-  - [Download Operations](#Download-Operations)
+  - [Windows Download Operations](#Windows-Download-Operations)
   - [PowerShell Base64 Encode and Decode](#PowerShell-Base64-Encode-and-Decode)
   - [PowerShell Web Downloads](#PowerShell-Web-Downloads)
   - [PowerShell DownloadFile Method](#PowerShell-DownloadFile-Method)
@@ -22,7 +22,7 @@
   - [Configuring WebDav Server](#Configuring-WebDav-Server)
   - [FTP Uploads](#FTP-Uploads)
 - [Linux File Transfer Methods](#Linux-File-Transfer-Methods)
-  - [Download Operations](#Download-Operations)
+  - [Linux Download Operations](#Linux-Download-Operations)
   - [Base64 Encoding and Decoding](#Base64-Encoding-and-Decoding)
   - [Web Downloads with Wget and cURL](#Web-Downloads-with-Wget-and-cURL)
   - [Fileless Attacks Using Linux](#Fileless-Attacks-Using-Linux)
@@ -119,7 +119,7 @@ This is an excellent example of multiple methods for file transfer and the threa
 
 This section will discuss using some native Windows tools for download and upload operations. Later in the module, we'll discuss Living Off The Land binaries on Windows & Linux and how to use them to perform file transfer operations.
 
-#### Download Operations
+#### Windwos Download Operations
 
 We have access to the machine MS02, and we need to download a file from our Pwnbox machine. Let's see how we can accomplish this using multiple File Download methods.
 
@@ -624,7 +624,7 @@ Although Linux can communicate via FTP, SMB like Windows, most malware on all di
 
 This section will review multiple ways to transfer files on Linux, including HTTP, Bash, SSH, etc.
 
-### Download Operations
+### Linux Download Operations
 
 We have access to the machine NIX04, and we need to download a file from our Pwnbox machine. Let's see how we can accomplish this using multiple file download methods.
 
