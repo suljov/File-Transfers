@@ -26,7 +26,7 @@
   - [Base64 Encoding and Decoding](#Base64-Encoding-and-Decoding)
   - [Web Downloads with Wget and cURL](#Web-Downloads-with-Wget-and-cURL)
   - [Fileless Attacks Using Linux](#Fileless-Attacks-Using-Linux)
-  - [Download with Bash dev/tcp](#Download-with-Bash-dev/tcp)
+  - [Download with Bash dev tcp](#Download-with-Bash-dev/tcp)
   - [SSH Downloads](#SSH-Downloads)
   - [Upload Operations](#Upload-Operations)
   - [Alternative Web File Transfer Method](#Alternative-Web-File-Transfer-Method)
@@ -717,7 +717,7 @@ Suljov@htb[/htb]$ wget -qO- https://raw.githubusercontent.com/juliourena/plainte
 Hello World!
 ```
 
-### Download with Bash dev/tcp
+### Download with Bash dev tcp
 
 There may also be situations where none of the well-known file transfer tools are available. As long as Bash version 2.04 or greater is installed (compiled with --enable-net-redirections), the built-in /dev/TCP device file can be used for simple file downloads.
 
