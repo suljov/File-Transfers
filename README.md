@@ -26,7 +26,7 @@
   - [Base64 Encoding and Decoding](#Base64-Encoding-and-Decoding)
   - [Web Downloads with Wget and cURL](#Web-Downloads-with-Wget-and-cURL)
   - [Fileless Attacks Using Linux](#Fileless-Attacks-Using-Linux)
-  - [Download with Bash dev tcp](#Download-with-Bash-dev/tcp)
+  - [Download with Bash dev tcp](#Download-with-Bash-dev-tcp)
   - [SSH Downloads](#SSH-Downloads)
   - [Upload Operations](#Upload-Operations)
   - [Alternative Web File Transfer Method](#Alternative-Web-File-Transfer-Method)
