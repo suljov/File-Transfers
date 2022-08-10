@@ -35,6 +35,10 @@
   - [SCP Upload](#SCP-Upload)
 -------------------------------------------------------------------------------------
 - [Transfering Files with Code](#Transfering-Files-with-Code)
+  - [Python](#Python)
+  - [PHP](#PHP)
+  - [Other Languages](#Other-Languages)
+  - [Upload Operations using Python3](#Upload-Operations-using-Python3)
 -------------------------------------------------------------------------------------
 - [Miscellaneous File Transfer Methods](#Miscellaneous-File-Transfer-Methods)
 -------------------------------------------------------------------------------------
