@@ -3,6 +3,7 @@
 ## Table Of Content
 
 - [File transfers](#File-transfers)
+-------------------------------------------------------------------------------------
 - [Windows File Transfer Methods](#Windows-File-Transfer-Methods)
   - [Introduction](#Introduction)
   - [Windows Download Operations](#Windows-Download-Operations)
@@ -21,6 +22,7 @@
   - [SMB Uploads](#SMB-Uploads)
   - [Configuring WebDav Server](#Configuring-WebDav-Server)
   - [FTP Uploads](#FTP-Uploads)
+  -------------------------------------------------------------------------------------
 - [Linux File Transfer Methods](#Linux-File-Transfer-Methods)
   - [Linux Download Operations](#Linux-Download-Operations)
   - [Base64 Encoding and Decoding](#Base64-Encoding-and-Decoding)
@@ -31,13 +33,21 @@
   - [Upload Operations](#Upload-Operations)
   - [Alternative Web File Transfer Method](#Alternative-Web-File-Transfer-Method)
   - [SCP Upload](#SCP-Upload)
+-------------------------------------------------------------------------------------
 - [Transfering Files with Code](#Transfering-Files-with-Code)
+-------------------------------------------------------------------------------------
 - [Miscellaneous File Transfer Methods](#Miscellaneous-File-Transfer-Methods)
+-------------------------------------------------------------------------------------
 - [Protected File Transfers](#Protected-File-Transfers)
+-------------------------------------------------------------------------------------
 - [Catching Files over HTTP and HTTPS](#Catching-Files-over-HTTP-and-HTTPS)
+-------------------------------------------------------------------------------------
 - [Living off The Land](#Living-off-The-Land)
+-------------------------------------------------------------------------------------
 - [Detection](#Detection)
+-------------------------------------------------------------------------------------
 - [Evading Detection](#Evading-Detection)
+-------------------------------------------------------------------------------------
 
 
 
@@ -83,6 +93,8 @@ Understanding different ways to perform file transfers and how networks operate 
 File transfer is a core feature of any operating system, and many tools exist to achieve this. However, many of these tools may be blocked or monitored by diligent administrators, and it is worth reviewing a range of techniques that may be possible in a given environment.
 
 This module covers techniques that leverage tools and applications commonly available on Windows and Linux systems. The list of techniques is not exhaustive. The information within this module can also be used as a reference guide when working through other HTB Academy modules, as many of the in-module exercises will require us to transfer files to/from a target host or to/from the provided Pwnbox. Target Windows and Linux machines are provided to complete a few hands-on exercises as part of the module. It is worth utilizing these targets to experiment with as many of the techniques demonstrated in the module sections as possible. Observe the nuances between the different transfer methods and note down situations where they would be helpful. Once you have completed this module, try out the various techniques in other HTB Academy modules and boxes and labs on the HTB main platform.
+
+-------------------------------------------------------------------------------------
 
 ### Windows File Transfer Methods
 
@@ -610,7 +622,7 @@ ftp> USER anonymous
 ftp> PUT c:\windows\system32\drivers\etc\hosts
 ftp> bye
 ```
-
+-------------------------------------------------------------------------------------
 
 ### Linux File Transfer Methods
 
@@ -903,25 +915,31 @@ passwd
 
 Note: Remember that scp syntax is similar to cp or copy.
 
-
+-------------------------------------------------------------------------------------
 
 
 ### Transfering Files with Code
 
 
+-------------------------------------------------------------------------------------
 ### Miscellaneous File Transfer Methods
 
 
+-------------------------------------------------------------------------------------
 ### Protected File Transfers
 
 
+-------------------------------------------------------------------------------------
 ### Catching Files over HTTP and HTTPS
 
 
+-------------------------------------------------------------------------------------
 ### Living off The Land
 
 
+-------------------------------------------------------------------------------------
 ### Detection
 
 
+-------------------------------------------------------------------------------------
 ### Evading Detection
