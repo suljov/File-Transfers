@@ -6,7 +6,7 @@
 -------------------------------------------------------------------------------------
 - [Windows File Transfer Methods](#Windows-File-Transfer-Methods)
   - [Introduction](#Introduction)
-  - [Windows Download Operations](#Windows-Download-Operations)
+  - [Windwos Download Operations](#Windwos-Download-Operations)
   - [PowerShell Base64 Encode and Decode](#PowerShell-Base64-Encode-and-Decode)
   - [PowerShell Web Downloads](#PowerShell-Web-Downloads)
   - [PowerShell DownloadFile Method](#PowerShell-DownloadFile-Method)
