@@ -41,6 +41,9 @@
   - [Upload Operations using Python3](#Upload-Operations-using-Python3)
 -------------------------------------------------------------------------------------
 - [Miscellaneous File Transfer Methods](#Miscellaneous-File-Transfer-Methods)
+  - [Netcat](#Netcat)
+  - [PowerShell Session File Transfer](#PowerShell-Session-File-Transfer)
+  - [RDP](#RDP)
 -------------------------------------------------------------------------------------
 - [Protected File Transfers](#Protected-File-Transfers)
 -------------------------------------------------------------------------------------
@@ -1085,6 +1088,127 @@ We can do the same with any other programming language. A good practice is picki
 -------------------------------------------------------------------------------------
 ## Miscellaneous File Transfer Methods
 
+We've covered various methods for transferring files on Windows and Linux. We also cover ways to achieve the same goal using different programming languages, but there are still many more methods and applications that we can use.
+
+This section will cover alternative methods such as transferring files using Netcat,
+```
+https://en.wikipedia.org/wiki/Netcat
+```
+using RDP and PowerShell sessions.
+
+### Netcat
+
+Netcat 
+```
+https://linux.die.net/man/1/nc
+```
+(often abbreviated to nc) is a computer networking utility for reading from and writing to network connections using TCP or UDP, which means that we can use it for file transfer operations.
+
+The target or attacking machine can be used to initiate the connection, which is helpful if a firewall prevents access to the target. Let's create an example and transfer a tool to our target.
+
+In this example, we'll transfer SharpKatz.exe
+```
+https://github.com/Flangvik/SharpCollection/raw/master/NetFramework_4.7_x64/SharpKatz.exe
+```
+from our Pwnbox onto the compromised machine. We'll do it using two methods. Let's work through the first one.
+
+We'll first start Netcat nc on the compromised machine, listening with option -l on port 8000, with the option -p 8000, and redirect the stdout using a single greater-than > followed by the filename, SharpKatz.exe.
+ 
+### Compromised Machine - Listenting on Port 8000
+![image](https://user-images.githubusercontent.com/24814781/190650292-b910a89e-2a7b-46fa-bb35-390ba0d69504.png)
+
+From our Pwnbox, we'll connect to the compromised machine on port 8000 using Netcat and send the file SharpKatz.exe as input to Netcat. The option -q 0 will tell Netcat to close the connection once it finishes. That way, we'll know when the file transfer was completed.
+
+#### Pwnbox - Sending File to Compromised machine
+![image](https://user-images.githubusercontent.com/24814781/190651632-1f5f3d7e-72f7-40c9-b83e-edd410fa34c9.png)
+
+Instead of listening on our compromised machine, we can connect to a port on our Pwnbox to perform the file transfer operation. Let's listen on port 80 on our Pwnbox and send the file SharpKatz.exe as input to Netcat.
+
+#### Pwnbox - Sending File as Input to Netcat
+![image](https://user-images.githubusercontent.com/24814781/190651807-d50abb03-5560-4611-9ea4-c5b05efa8384.png)
+
+#### Compromised Machine Connect to Netcat to Receive the File
+![image](https://user-images.githubusercontent.com/24814781/190651928-5a784bca-9962-4d00-83f1-2f0e478a3039.png)
+
+If we don't have Netcat on our compromised machine, Bash supports read/write operations on a pseudo-device file /dev/TCP/.
+```
+https://tldp.org/LDP/abs/html/devref1.html
+```
+
+Writing to this special file makes Bash open a TCP connection to host:port, and this feature may be used for file transfers.
+
+#### Pwnbox - Sending File as Input to Netcat
+![image](https://user-images.githubusercontent.com/24814781/190652126-72aced20-cb8c-46f3-bf07-39340175d220.png)
+
+#### Compromised Machine Connecting to Netcat Using /dev/tcp to Receive the File
+![image](https://user-images.githubusercontent.com/24814781/190652211-345329ed-0da2-4c7c-b597-8560e8ced773.png)
+
+Note: The same operation can be used to transfer files from the compromised host to our Pwnbox. 
+
+
+### PowerShell Session File Transfer
+We already talk about doing file transfers with PowerShell, but there may be scenarios where HTTP, HTTPS, or SMB are unavailable. If that's the case, we can use PowerShell Remoting,
+```
+https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/running-remote-commands?view=powershell-7.2
+```
+aka WinRM, to perform file transfer operations.
+
+PowerShell Remoting
+```
+https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/running-remote-commands?view=powershell-7.2
+```
+allows us to execute scripts or commands on a remote computer using PowerShell sessions. Administrators commonly use PowerShell Remoting to manage remote computers in a network, and we can also use it for file transfer operations. By default, enabling PowerShell remoting creates both an HTTP and an HTTPS listener. The listeners run on default ports TCP/5985 for HTTP and TCP/5986 for HTTPS.
+
+To create a PowerShell Remoting session on a remote computer, we will need administrative access, be a member of the Remote Management Users group, or have explicit permissions for PowerShell Remoting in the session configuration. Let's create an example and transfer a file from DC01 to DATABASE01 and vice versa.
+
+We have a session as Administrator in DC01, the user has administrative rights on DATABASE01, and PowerShell Remoting is enabled. Let's use Test-NetConnection to confirm we can connect to WinRM.
+
+#### From DC01 - Confirm WinRM port TCP 5985 is Open on DATABASE01.
+![image](https://user-images.githubusercontent.com/24814781/190652823-b5e5c495-f8d1-4192-836a-428094ae6dfa.png)
+
+![image](https://user-images.githubusercontent.com/24814781/190652863-d94a47ac-5055-425d-85a9-408a77269acf.png)
+
+Because this session already has privileges over DATABASE01, we don't need to specify credentials. In the example below, a session is created to the remote computer named DATABASE01 and stores the results in the variable named $Session.
+
+#### Create a PowerShell Remoting Session to DATABASE01
+![image](https://user-images.githubusercontent.com/24814781/190653054-85013eed-b5eb-4dd4-88c3-13979a59360d.png)
+
+We can use the Copy-Item cmdlet to copy a file from our local machine DC01 to the DATABASE01 session we have $Session or vice versa.
+![image](https://user-images.githubusercontent.com/24814781/190653179-097fc867-c70b-4bf3-bd05-d408115012b3.png)
+
+#### Copy samplefile.txt from our Localhost to the DATABASE01 Session
+![image](https://user-images.githubusercontent.com/24814781/190653280-2d6e75b1-4623-4a11-bbe5-efeff1f66aae.png)
+
+#### Copy DATABASE.txt from DATABASE01 Session to our Localhost
+![image](https://user-images.githubusercontent.com/24814781/190653587-82b54b0f-6707-41a0-b93e-061b0b51134b.png)
+
+### RDP
+
+RDP (Remote Desktop Protocol) is commonly used in Windows networks for remote access. We can transfer files using RDP by copying and pasting. We can right-click and copy a file from the Windows machine we connect to and paste it into the RDP session.
+
+If we are connected from Linux, we can use xfreerdp or rdesktop. At the time of writing, xfreerdp and rdesktop allow copy from our target machine to the RDP session, but there may be scenarios where this may not work as expected.
+
+As an alternative to copy and paste, we can mount a local resource on the target RDP server. rdesktop or xfreerdp can be used to expose a local folder in the remote RDP session.
+
+#### Mounting a Linux Folder Using rdesktop
+![image](https://user-images.githubusercontent.com/24814781/190653667-b5a9f249-b05b-46f2-bb9e-dacaf06bcb03.png)
+
+#### Mounting a Linux Folder Using xfreerdp
+![image](https://user-images.githubusercontent.com/24814781/190653724-8801c696-0d18-4b83-8361-a103fc6a9ff3.png)
+
+To access the directory, we can connect to \\tsclient\, allowing us to transfer files to and from the RDP session.
+![image](https://user-images.githubusercontent.com/24814781/190654192-b500ffb1-1f88-4520-b938-e9b5b4c35676.png)
+
+Alternatively, from Windows, the native mstsc.exe
+```
+https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/mstsc
+```
+remote desktop client can be used.
+![Uploading image.png…]()
+
+After selecting the drive, we can interact with it in the remote session as follows:
+
+Note: This drive is not accessible to any other users logged on to the target computer, even if they manage to hijack the RDP session. 
 
 -------------------------------------------------------------------------------------
 ## Protected File Transfers
