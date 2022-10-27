@@ -53,6 +53,14 @@
 -------------------------------------------------------------------------------------
 - [Catching Files over HTTP and HTTPS](#Catching-Files-over-HTTP-and-HTTPS)
   - [Nginx - Enabling PUT](#Nginx---Enabling-PUT)
+  - [Create a Directory to Handle Uploaded Files](#Create-a-Directory-to-Handle-Uploaded-Files)
+  - [Change the Owner to www-data](#Change-the-Owner-to-www-data)
+  - [Create Nginx Configuration File](#Create-Nginx-Configuration-File)
+  - [Symlink our Site to the sites-enabled Directory](#Symlink-our-Site-to-the-sites-enabled-Directory)
+  - [Start Nginx](#Start-Nginx)
+  - [Verifying Errors](#Verifying-Errors)
+  - [Remove NginxDefault Configuration](#Remove-NginxDefault-Configuration)
+  - [Upload File Using cURL](#Upload-File-Using-cURL)
 -------------------------------------------------------------------------------------
 - [Living off The Land](#Living-off-The-Land)
 -------------------------------------------------------------------------------------
@@ -1338,9 +1346,6 @@ Now we can test uploading by using cURL to send a PUT request. In the below exam
 
 Once we have this working, a good test is to ensure the directory listing is not enabled by navigating to http://localhost/SecretUploadDirectory. By default, with Apache, if we hit a directory without an index file (index.html), it will list all the files. This is bad for our use case of exfilling files because most files are sensitive by nature, and we want to do our best to hide them. Thanks to Nginx being minimal, features like that are not enabled by default.
 
-#### Using Built-in Tools
-
-In the next section, we'll introduce the topic of "Living off the Land" or using built-in Windows and Linux utilities to perform file transfer activities. We will repeatedly come back to this concept throughout the modules in the Penetration Tester path when covering tasks such as Windows and Linux privilege escalation and Active Directory enumeration and exploitation.
 -------------------------------------------------------------------------------------
 ## Living off The Land
 
