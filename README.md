@@ -52,6 +52,7 @@
   - [File Encryption on Linux](#File-Encryption-on-Linux)
 -------------------------------------------------------------------------------------
 - [Catching Files over HTTP and HTTPS](#Catching-Files-over-HTTP-and-HTTPS)
+  - [Nginx - Enabling PUT](#Nginx-Enabling-PUT)
 -------------------------------------------------------------------------------------
 - [Living off The Land](#Living-off-The-Land)
 -------------------------------------------------------------------------------------
@@ -1275,7 +1276,16 @@ Remember to use a strong and unique password to avoid brute-force cracking attac
 We can use any of the previous methods to transfer this file, but it's recommended to use a secure transport method such as HTTPS, SFTP, or SSH. As always, practice the examples in this section against target hosts in this or other modules and reproduce what you can (such as the openssl examples using the Pwnbox. The following section will cover different ways to transfer files over HTTP and HTTPS.
 -------------------------------------------------------------------------------------
 ## Catching Files over HTTP and HTTPS
+#### HTTP/S
+Web transfer is the most common way most people transfer files because HTTP/HTTPS are the most common protocols allowed through firewalls. Another immense benefit is that, in many cases, the file will be encrypted in transit. There is nothing worse than being on a Penetration Test, and a client's network IDS picks up on a sensitive file being transferred over plaintext and having them ask why we sent a password to our cloud server without using encryption.
 
+We have already discussed using the Python3 uploadserver module
+```
+https://github.com/Densaugeo/uploadserver
+```
+to set up a web server with upload capabilities, but we can also use Apache or Nginx. This section will cover creating a secure web server for file upload operations.
+
+### Nginx - Enabling PUT
 
 -------------------------------------------------------------------------------------
 ## Living off The Land
