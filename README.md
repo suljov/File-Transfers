@@ -1271,7 +1271,7 @@ Remember to use a strong and unique password to avoid brute-force cracking attac
 
 ##### Decrypt passwd.enc with openssl
 
-![Uploading image.png…]()
+![image](https://user-images.githubusercontent.com/24814781/198385966-adabbf35-9889-4521-8c5f-8f9852328d8f.png)
 
 We can use any of the previous methods to transfer this file, but it's recommended to use a secure transport method such as HTTPS, SFTP, or SSH. As always, practice the examples in this section against target hosts in this or other modules and reproduce what you can (such as the openssl examples using the Pwnbox. The following section will cover different ways to transfer files over HTTP and HTTPS.
 -------------------------------------------------------------------------------------
@@ -1286,7 +1286,61 @@ https://github.com/Densaugeo/uploadserver
 to set up a web server with upload capabilities, but we can also use Apache or Nginx. This section will cover creating a secure web server for file upload operations.
 
 ### Nginx - Enabling PUT
+A good alternative for transferring files to Apache is Nginx
+```
+https://www.nginx.com/resources/wiki/
+```
+because the configuration is less complicated, and the module system does not lead to security issues as Apache can.
 
+When allowing HTTP uploads, it is critical to be 100% positive that users cannot upload web shells and execute them. Apache makes it easy to shoot ourselves in the foot with this, as the PHP module loves to execute anything ending in PHP. Configuring Nginx to use PHP is nowhere near as simple.
+
+#### Create a Directory to Handle Uploaded Files
+![image](https://user-images.githubusercontent.com/24814781/198386077-9a05717d-c0cf-46ed-b412-4bb25361f454.png)
+
+#### Change the Owner to www-data
+![image](https://user-images.githubusercontent.com/24814781/198386173-71a8ba2e-036d-4611-8c63-89141b9244d0.png)
+
+#### Create Nginx Configuration File
+
+Create the Nginx configuration file by creating the file /etc/nginx/sites-available/upload.conf with the contents:
+![image](https://user-images.githubusercontent.com/24814781/198386314-801afa34-d2f4-4fe0-aaff-f945c19669b5.png)
+
+#### Symlink our Site to the sites-enabled Directory
+![image](https://user-images.githubusercontent.com/24814781/198386406-be8573a2-8aa2-44eb-ab01-f590ddf7e646.png)
+
+#### Start Nginx
+![image](https://user-images.githubusercontent.com/24814781/198386860-8021d0be-0a7d-47de-b460-6043031a98f3.png)
+
+If we get any error messages, check /var/log/nginx/error.log. If using Pwnbox, we will see port 80 is already in use.
+
+#### Verifying Errors
+![image](https://user-images.githubusercontent.com/24814781/198387000-7bd2b9ce-9a33-4697-bd04-78493ce0a3fa.png)
+
+```
+Suljov@htb[/htb]$ ss -lnpt | grep `80`
+
+LISTEN 0      100          0.0.0.0:80        0.0.0.0:*    users:(("python",pid=`2811`,fd=3),("python",pid=2070,fd=3),("python",pid=1968,fd=3),("python",pid=1856,fd=3))
+```
+![image](https://user-images.githubusercontent.com/24814781/198387189-96d5eab8-aa9b-4688-b402-36b6f7fea8e5.png)
+
+We see there is already a module listening on port 80. To get around this, we can remove the default Nginx configuration, which binds on port 80.
+
+#### Remove NginxDefault Configuration
+![image](https://user-images.githubusercontent.com/24814781/198387351-f4215687-e186-4b74-b878-f8d4bee80c35.png)
+
+Now we can test uploading by using cURL to send a PUT request. In the below example, we will upload the /etc/passwd file to the server and call it users.txt
+
+
+#### Upload File Using cURL
+![image](https://user-images.githubusercontent.com/24814781/198387397-4c47337c-2c15-46f8-bfcb-ab7378ae7a2c.png)
+
+![Uploading image.png…]()
+
+Once we have this working, a good test is to ensure the directory listing is not enabled by navigating to http://localhost/SecretUploadDirectory. By default, with Apache, if we hit a directory without an index file (index.html), it will list all the files. This is bad for our use case of exfilling files because most files are sensitive by nature, and we want to do our best to hide them. Thanks to Nginx being minimal, features like that are not enabled by default.
+
+#### Using Built-in Tools
+
+In the next section, we'll introduce the topic of "Living off the Land" or using built-in Windows and Linux utilities to perform file transfer activities. We will repeatedly come back to this concept throughout the modules in the Penetration Tester path when covering tasks such as Windows and Linux privilege escalation and Active Directory enumeration and exploitation.
 -------------------------------------------------------------------------------------
 ## Living off The Land
 
