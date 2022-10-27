@@ -52,7 +52,7 @@
   - [File Encryption on Linux](#File-Encryption-on-Linux)
 -------------------------------------------------------------------------------------
 - [Catching Files over HTTP and HTTPS](#Catching-Files-over-HTTP-and-HTTPS)
-  - [Nginx - Enabling PUT](#Nginx-Enabling-PUT)
+  - [Nginx - Enabling PUT](#Nginx---Enabling-PUT)
 -------------------------------------------------------------------------------------
 - [Living off The Land](#Living-off-The-Land)
 -------------------------------------------------------------------------------------
