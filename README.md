@@ -63,6 +63,10 @@
   - [Upload File Using cURL](#Upload-File-Using-cURL)
 -------------------------------------------------------------------------------------
 - [Living off The Land](#Living-off-The-Land)
+  - [Using the LOLBAS and GTFOBins Project](#Using-the-LOLBAS-and-GTFOBins-Project)
+  - [LOLBAS](#LOLBAS)
+  - [GTFOBins](#GTFOBins)
+  - [Other Common Living off the Land tools](#Other-Common-Living-off-the-Land-tools)
 -------------------------------------------------------------------------------------
 - [Detection](#Detection)
 -------------------------------------------------------------------------------------
@@ -1342,16 +1346,154 @@ Now we can test uploading by using cURL to send a PUT request. In the below exam
 #### Upload File Using cURL
 ![image](https://user-images.githubusercontent.com/24814781/198387397-4c47337c-2c15-46f8-bfcb-ab7378ae7a2c.png)
 
-![Uploading image.png…]()
+![image](https://user-images.githubusercontent.com/24814781/198741682-fbe55dc4-c2c3-4569-9c96-a4df9481d25e.png)
 
 Once we have this working, a good test is to ensure the directory listing is not enabled by navigating to http://localhost/SecretUploadDirectory. By default, with Apache, if we hit a directory without an index file (index.html), it will list all the files. This is bad for our use case of exfilling files because most files are sensitive by nature, and we want to do our best to hide them. Thanks to Nginx being minimal, features like that are not enabled by default.
 
 -------------------------------------------------------------------------------------
 ## Living off The Land
+The phrase "Living off the land" was coined by Christopher Campbell @obscuresec
+```
+https://twitter.com/obscuresec
+```
+& Matt Graeber @mattifestation
+```
+https://twitter.com/mattifestation
+```
+at DerbyCon 3
+```
+https://www.youtube.com/watch?v=j-r6UonEkUw
+```
+The term LOLBins (Living off the Land binaries) came from a Twitter discussion on what to call binaries that an attacker can use to perform actions beyond their original purpose. There are currently two websites that aggregate information on Living off the Land binaries:
 
 
+
+*    LOLBAS Project for Windows Binaries
+```
+https://lolbas-project.github.io/#
+```
+*    GTFOBins for Linux Binaries
+```
+https://gtfobins.github.io/
+```
+
+Living off the Land binaries can be used to perform functions such as:
+
+*    Download
+*    Upload
+*    Command Execution
+*    File Read
+*    File Write
+*    Bypasses
+
+This section will focus on using LOLBAS and GTFOBins projects and provide examples for download and upload functions on Windows & Linux systems.
+
+### Using the LOLBAS and GTFOBins Project
 -------------------------------------------------------------------------------------
 ## Detection
+LOLBAS for Windows
+```
+https://lolbas-project.github.io/#
+```
+and GTFOBins for Linux
+```
+https://gtfobins.github.io/
+```
+
+#### LOLBAS
+
+To search for download and upload functions in LOLBAS
+```
+https://lolbas-project.github.io/#
+```
+we can use /download or /upload.
+
+Let's use CertReq.exe
+```
+https://lolbas-project.github.io/lolbas/Binaries/Certreq/
+```
+as an example.
+
+We need to listen on a port on our attack host for incoming traffic using Netcat and then execute certreq.exe to upload a file.
+
+#### Upload win.ini to our Pwnbox
+
+![image](https://user-images.githubusercontent.com/24814781/198741708-c7646c38-51f1-4616-9d6c-c2a86974b735.png)
+
+This will send the file to our Netcat session, and we can copy-paste its contents.
+
+#### File Received in our Netcat Session
+
+![image](https://user-images.githubusercontent.com/24814781/198742011-93be8a6c-3bda-4bdb-8a4a-00ad4b014366.png)
+
+### GTFOBins
+
+To search for the download and upload function in GTFOBins for Linux Binaries
+```
+https://gtfobins.github.io/
+```
+we can use +file download or +file upload.
+
+Let's use OpenSSL
+```
+https://www.openssl.org/
+```
+
+It's frequently installed and often included in other software distributions, with sysadmins using it to generate security certificates, among other tasks. OpenSSL can be used to send files "nc style."
+
+We need to create a certificate and start a server in our Pwnbox.
+
+#### Create Certificate in our Pwnbox
+
+![image](https://user-images.githubusercontent.com/24814781/198742047-c4351586-9f8f-4ff0-8b7a-0437c8a902f6.png)
+
+#### Stand up the Server in our Pwnbox
+
+![image](https://user-images.githubusercontent.com/24814781/198742086-37c9d268-406b-4427-a10c-1b1cc5edf60a.png)
+
+
+Next, with the server running, we need to download the file from the compromised machine.
+
+#### Download File from the Compromised Machine
+
+![image](https://user-images.githubusercontent.com/24814781/198742366-6766d851-15d5-47e2-b7d8-d004bafd8fbb.png)
+
+### Other Common Living off the Land tools
+
+#### Bitsadmin Download function
+
+The Background Intelligent Transfer Service (BITS)
+```
+https://learn.microsoft.com/en-us/windows/win32/bits/background-intelligent-transfer-service-portal
+```
+can be used to download files from HTTP sites and SMB shares. It "intelligently" checks host and network utilization into account to minimize the impact on a user's foreground work.
+
+#### File Download with Bitsadmin
+
+![image](https://user-images.githubusercontent.com/24814781/198742529-ffb3cb09-fcd9-41d0-89f3-d718afd64c67.png)
+
+PowerShell also enables interaction with BITS, enables file downloads and uploads, supports credentials, and can use specified proxy servers.
+
+#### Download
+
+![image](https://user-images.githubusercontent.com/24814781/198742754-aa118981-5a4d-4be7-8506-ce23ccb259bd.png)
+
+
+#### Upload 
+
+![image](https://user-images.githubusercontent.com/24814781/198743231-bdf9f75b-48b6-4689-a3b0-e5f571823818.png)
+
+#### Certutil
+
+Casey Smith (@subTee) 
+```
+https://twitter.com/subtee?lang=en
+```
+found that Certutil can be used to download arbitrary files. It is available in all Windows versions and has been a popular file transfer technique, serving as a defacto wget for Windows. However, the Antimalware Scan Interface (AMSI) currently detects this as malicious Certutil usage.
+
+#### Download a File with Certutil
+
+![Uploading image.png…]()
 
 
 -------------------------------------------------------------------------------------
