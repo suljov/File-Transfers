@@ -72,7 +72,7 @@
   - [Invoke-WebRequest](#Invoke-WebRequest)
   - [WinHttpRequest](#WinHttpRequest)
   - [Msxml2](#Msxml2)
-  - [Certutil.](#Certutil)
+  - [Certutil-D](#Certutil-D)
   - [BITS](#BITS)
 -------------------------------------------------------------------------------------
 - [Evading Detection](#Evading-Detection)
@@ -1548,7 +1548,7 @@ Malicious file transfers can also be detected by their user agents. The followin
 
 ![image](https://user-images.githubusercontent.com/24814781/198854404-a8abf95f-99b0-47d7-bc13-92f6c10afa36.png)
 
-### Certutil.
+### Certutil-D
 
 #### Certutil - Client
 
