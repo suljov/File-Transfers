@@ -1567,10 +1567,41 @@ Malicious file transfers can also be detected by their user agents. The followin
 
 #### BITS - Server
 
-![Uploading image.png…]()
+![image](https://user-images.githubusercontent.com/24814781/198854744-8cc1528f-940d-4a99-8aaf-542daf8aa264.png)
 
 
 This section just scratches the surface on detecting malicious file transfers. It would be an excellent start for any organization to create a whitelist of allowed binaries or a blacklist of binaries known to be used for malicious purposes. Furthermore, hunting for anomalous user agent strings can be an excellent way to catch an attack in progress.
 
 -------------------------------------------------------------------------------------
 ## Evading Detection
+
+### Changing User Agent
+If diligent administrators or defenders have blacklisted any of these User Agents, Invoke-WebRequest
+```
+https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/invoke-webrequest?view=powershell-7.2&viewFallbackFrom=powershell-7.1
+```
+contains a UserAgent parameter, which allows for changing the default user agent to one emulating Internet Explorer, Firefox, Chrome, Opera, or Safari. For example, if Chrome is used internally, setting this User Agent may make the request seem legitimate.
+#### Listing out User Agents
+
+![image](https://user-images.githubusercontent.com/24814781/198854765-4e5a5fda-8111-4ba1-b49f-f95be8b08a00.png)
+
+Invoking Invoke-WebRequest to download nc.exe using a Chrome User Agent:
+
+![image](https://user-images.githubusercontent.com/24814781/198854771-d051ffa2-598e-496c-bbee-eb362a37cf43.png)
+
+![image](https://user-images.githubusercontent.com/24814781/198854780-377959b0-3747-48cc-8c98-70c01d66956a.png)
+
+### LOLBAS and GTFOBins
+
+Application whitelisting may prevent you from using PowerShell or Netcat, and command-line logging may alert defenders to your presence. In this case, an option may be to use a "LOLBIN" (living off the land binary), alternatively also known as "misplaced trust binaries." An example LOLBIN is the Intel Graphics Driver for Windows 10 (GfxDownloadWrapper.exe), installed on some systems and contains functionality to download configuration files periodically. This download functionality can be invoked as follows:
+
+![Uploading image.png…]()
+
+Such a binary might be permitted to run by application whitelisting and be excluded from alerting. Other, more commonly available binaries are also available, and it is worth checking the LOLBAS
+```
+https://lolbas-project.github.io/
+```
+```
+https://gtfobins.github.io/
+```
+project and is definitely also worth checking out. As of the time of writing, the GTFOBins project provides useful information on nearly 40 commonly installed binaries that can be used to perform file transfers.
