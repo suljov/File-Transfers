@@ -69,6 +69,11 @@
   - [Other Common Living off the Land tools](#Other-Common-Living-off-the-Land-tools)
 -------------------------------------------------------------------------------------
 - [Detection](#Detection)
+  - [Invoke-WebRequest](#Invoke-WebRequest)
+  - [WinHttpRequest](#WinHttpRequest)
+  - [Msxml2](#Msxml2)
+  - [Certutil ](#Certutil)
+  - [BITS](#BITS)
 -------------------------------------------------------------------------------------
 - [Evading Detection](#Evading-Detection)
 -------------------------------------------------------------------------------------
@@ -1398,6 +1403,7 @@ and GTFOBins for Linux
 ```
 https://gtfobins.github.io/
 ```
+are websites where we can search for binaries we can use for different functions.
 
 #### LOLBAS
 
@@ -1492,8 +1498,79 @@ found that Certutil can be used to download arbitrary files. It is available in 
 
 #### Download a File with Certutil
 
-![Uploading image.png…]()
+![image](https://user-images.githubusercontent.com/24814781/198854355-dbb9b7fa-916c-4fa3-b18a-ded669105580.png)
 -------------------------------------------------------------------------------------
 ## Detection
+Command-line detection based on blacklisting is straightforward to bypass, even using simple case obfuscation. However, although the process of whitelisting all command lines in a particular environment is initially time-consuming, it is very robust and allows for quick detection and alerting on any unusual command lines.
+
+Most client-server protocols require the client and server to negotiate how content will be delivered before exchanging information. This is common with the HTTP protocol. There is a need for interoperability amongst different web servers and web browser types to ensure that users have the same experience no matter their browser. HTTP clients are most readily recognized by their user agent string, which the server uses to identify which HTTP client is connecting to it, for example, Firefox, Chrome, etc.
+
+User agents are not only used to identify web browsers, but anything acting as an HTTP client and connecting to a web server via HTTP can have a user agent string (i.e., cURL, a custom Python script, or common tools such as sqlmap, or Nmap).
+
+Organizations can take some steps to identify potential user agent strings by first building a list of known legitimate user agent strings, user agents used by default operating system processes, common user agents used by update services such as Windows Update, and antivirus updates, etc. These can be fed into a SIEM tool used for threat hunting to filter out legitimate traffic and focus on anomalies that may indicate suspicious behavior. Any suspicious-looking user agent strings can then be further investigated to determine whether they were used to perform malicious actions. This website
+```
+https://useragentstring.com/index.php
+```
+is handy for identifying common user agent strings. A list of user agent strings is available here
+```
+https://useragentstring.com/pages/useragentstring.php
+```
+
+Malicious file transfers can also be detected by their user agents. The following user agents/headers were observed from common HTTP transfer techniques (tested on Windows 10, version 10.0.14393, with PowerShell 5).
+
+### Invoke-WebRequest
+
+#### Invoke-WebRequest - Client
+
+![image](https://user-images.githubusercontent.com/24814781/198854360-168e860d-3a1c-47ea-9189-9ea3139c8de2.png)
+
+#### Invoke-WebRequest - Server
+
+![image](https://user-images.githubusercontent.com/24814781/198854371-9eaf0796-5558-4c22-91b8-56cf0e258003.png)
+
+### WinHttpRequest
+
+#### WinHttpRequest - Client
+
+![image](https://user-images.githubusercontent.com/24814781/198854375-52f55521-1c82-4284-b956-637b07af1511.png)
+
+#### WinHttpRequest - Server
+
+![image](https://user-images.githubusercontent.com/24814781/198854386-1bee6d46-a9a6-4be0-9d85-e91f1d7c5622.png)
+
+### Msxml2
+
+#### Msxml2 - Client
+
+![image](https://user-images.githubusercontent.com/24814781/198854395-9058eb70-171f-4b49-b178-94284c59f3b7.png)
+
+#### Msxml2 - Server
+
+![image](https://user-images.githubusercontent.com/24814781/198854404-a8abf95f-99b0-47d7-bc13-92f6c10afa36.png)
+
+### Certutil
+
+#### Certutil - Client
+
+![image](https://user-images.githubusercontent.com/24814781/198854407-bb082f92-d4b8-484d-a695-ce1dec9151f9.png)
+
+#### Certutil - Server
+
+![image](https://user-images.githubusercontent.com/24814781/198854412-ec1f4b56-4b64-4a03-97dd-b9095f452dbb.png)
+
+### BITS
+
+#### BITS - Client
+
+![image](https://user-images.githubusercontent.com/24814781/198854418-06896352-b1e2-4788-82cb-80aeb27e39a0.png)
+
+
+#### BITS - Server
+
+![Uploading image.png…]()
+
+
+This section just scratches the surface on detecting malicious file transfers. It would be an excellent start for any organization to create a whitelist of allowed binaries or a blacklist of binaries known to be used for malicious purposes. Furthermore, hunting for anomalous user agent strings can be an excellent way to catch an attack in progress.
+
 -------------------------------------------------------------------------------------
 ## Evading Detection
