@@ -1389,8 +1389,7 @@ Living off the Land binaries can be used to perform functions such as:
 This section will focus on using LOLBAS and GTFOBins projects and provide examples for download and upload functions on Windows & Linux systems.
 
 ### Using the LOLBAS and GTFOBins Project
--------------------------------------------------------------------------------------
-## Detection
+
 LOLBAS for Windows
 ```
 https://lolbas-project.github.io/#
@@ -1494,7 +1493,7 @@ found that Certutil can be used to download arbitrary files. It is available in 
 #### Download a File with Certutil
 
 ![Uploading image.png…]()
-
-
+-------------------------------------------------------------------------------------
+## Detection
 -------------------------------------------------------------------------------------
 ## Evading Detection
