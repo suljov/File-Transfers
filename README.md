@@ -72,7 +72,7 @@
   - [Invoke-WebRequest](#Invoke-WebRequest)
   - [WinHttpRequest](#WinHttpRequest)
   - [Msxml2](#Msxml2)
-  - [Certutil ](#Certutil)
+  - [Certutil](#Certutil)
   - [BITS](#BITS)
 -------------------------------------------------------------------------------------
 - [Evading Detection](#Evading-Detection)
