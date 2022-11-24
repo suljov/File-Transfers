@@ -364,8 +364,9 @@ https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbserver.py
 from Impacket and then use copy, move, PowerShell Copy-Item, or any other tool that allows connection to SMB.
 
 ### Create the SMB Server
+example 1:
 ```
-Suljov@htb[/htb]$ sudo impacket-smbserver share -smb2support /tmp/smbshare
+Suljov@htb[/htb]$ sudo impacket-smbserver <share name> -smb2support <path files will go>
 
 Impacket v0.9.22 - Copyright 2020 SecureAuth Corporation
 
@@ -375,6 +376,10 @@ Impacket v0.9.22 - Copyright 2020 SecureAuth Corporation
 [*] Config file parsed
 [*] Config file parsed
 [*] Config file parsed
+```
+example 2:
+```
+sudo smbserver.py -smb2support <share name> <path files will go>
 ```
 
 To download a file from the SMB server to the current working directory, we can use the following command:
